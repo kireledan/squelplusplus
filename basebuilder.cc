@@ -1,6 +1,7 @@
 #include "basebuilder.h"
 #include <string>
 #include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -61,3 +62,21 @@ std::string basebuilder::formatTableAlias(std::string item){
     else
         return item;
 }
+
+std::string basebuilder::formatFieldName(std::string item, bool ignorePeriodsForFieldNameQuotes){
+    if(defaults.autoQuoteFieldNames){
+        
+        char quoteChar = defaults.nameQuoteCharacter;
+        
+        if(ignorePeriodsForFieldNameQuotes)
+            item = quoteChar + item + quoteChar;
+        else{
+            std::vector<string> splitup = basebuilder::split(item,".");
+            for_each(splitup.begin(),splitup.end(), [&quoteChar](string &n){ quoteChar + n + quoteChar;});
+        }
+    }
+    
+    return item;
+}
+
+

@@ -1,5 +1,6 @@
 #include <string>
 #include <map>
+#include <vector>
 using namespace std;
 class basebuilder {
     
@@ -50,10 +51,29 @@ class basebuilder {
         return str;
     }
     
+    std::vector<string> split(string str, string token){
+        std::vector<string>result;
+        while(str.size()){
+            int index = str.find(token);
+            if(index!=string::npos){
+                result.push_back(str.substr(0,index));
+                str = str.substr(index+token.size());
+                if(str.size()==0)result.push_back(str);
+            }else{
+                result.push_back(str);
+                str = "";
+            }
+        }
+        return result;
+    }
+    
     std::string escapeValue(std::string v);
     std::string formatTableName(std::string item);
     std::string formatFieldAlias(std::string item);
     std::string formatTableAlias(std::string item);
+    std::string formatFieldName(std::string item, bool ignorePeriodsForFieldNameQuotes);
+    // std::string formatCustomValue(std::string item, function)
+    
     
     QueryBuilderOptions defaults;
 };
